@@ -1,0 +1,3 @@
+from stream_analyzer import generate_highlights
+
+generate_highlights()

@@ -1,21 +1,21 @@
-from flask import Flask, request
-from flask_cors import CORS
-import time
+from fastapi import FastAPI
 
-app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})  # Allow requests from all origins
+from scraper import scrape_youtube_url
+
+# Download VADER lexicon
+nltk.download('vader_lexicon')
+
+app = FastAPI()
 
 
-@app.route('/', methods=['GET'])
-def handle_get_request():
-    return "Hello world"
-
-@app.route('/process', methods=['POST'])
-def handle_post_request():
-    data = request.get_json()
-    print(data["youtubeUrl"])
-    time.sleep(240)
-    return {"timeStamps": [123, 345, 567, 678, 1231, 4121, 7328, 12399]}
-
-if __name__ == '__main__':
-    app.run(port=5000)
+@app.get("/generate/")
+async def generate(stream_url: str):
+    """
+    All the live chat messages from the stream_url are scraped and
+    then each chat message is processed and analyze to generate the
+    highlights of the stream
+    """
+    # scraping the YouTube stream
+    scrape_youtube_url(stream_url)
+    
+    return {"message": f"Processing URL: {stream_url}"}

@@ -1,3 +1,12 @@
+Running the Web client:
+Inside the `client/` folder, run:
+
+`npm install` <br />
+`npm run dev`
+
+This should start a web client on port 5173
+
+
 Requires the following python3 packages:
   - NOTE: These packages will be installed via pip when installing the scraper.
   - BeautifulSoup

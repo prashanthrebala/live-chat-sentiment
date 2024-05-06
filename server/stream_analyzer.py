@@ -75,7 +75,7 @@ def generate_highlights(num_highlights: int):
     spark.udf.register("sentiment_score_udf", get_sentiment_score)
     df = df.withColumn("sentiment_score", F.expr("sentiment_score_udf(message)"))
 
-    print(df.show(5))
+    print(df.show(25))
 
     # Reduce the dataframe by summing all the scores for the same seconds value
     df = (
@@ -83,8 +83,25 @@ def generate_highlights(num_highlights: int):
         .agg(F.sum("sentiment_score").alias("total_score"))
         .sort(["total_score"], ascending=[False])
     )
-    print(df.show(5))
+    print(df.show(25))
 
-    top_n_timestamps = df.select("seconds").head(num_highlights)
-    top_n_timestamps = [t[0] for t in top_n_timestamps]
-    return top_n_timestamps
+    top_n_timestamps = df.select(["seconds", "total_score"]).head(100)
+
+    # finding the top intervals
+    top_intervals = [(t[0], t[0], t[1]) for t in top_n_timestamps]
+    top_intervals.sort()
+
+    merged_top_intervals = []
+    for start, end, score in top_intervals:
+        if not merged_top_intervals:
+            merged_top_intervals.append((start, end, score))
+        else:
+            last_start, last_end, last_score = merged_top_intervals[-1]
+            if start - last_end <= 10:
+                merged_top_intervals[-1] = (last_start, end, last_score + score)
+            else:
+                merged_top_intervals.append((start, end, score))
+    
+    top_n_intervals = sorted(merged_top_intervals, key=lambda x: x[2], reverse=True)[:num_highlights]
+    top_n_intervals = sorted([max(start - 30, 0) for start, end, _ in top_n_intervals])
+    return top_n_intervals

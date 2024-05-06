@@ -21,3 +21,4 @@ Run the file and you'll obtain the timestamp and text values within the output d
 Specify the output file name in sentiment_main.py
 Run the file to obtain sentiment scores of each line in sentiment.txt in the root of the folder
   
+Presentation Link: [StreamSense](https://pitch.com/v/streamsense-635s4g)

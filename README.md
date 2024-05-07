@@ -1,4 +1,6 @@
-Running the Web client:
+Presentation Link: [StreamSense](https://pitch.com/v/streamsense-635s4g)
+
+### Running the Web client:
 Inside the `client/` folder, run:
 
 `npm install` <br />
@@ -7,18 +9,16 @@ Inside the `client/` folder, run:
 This should start a web client on port 5173
 
 
-Requires the following python3 packages:
-  - NOTE: These packages will be installed via pip when installing the scraper.
-  - BeautifulSoup
-  - Requests
-  - nltk
+### Running the Server:
 
-Install using `pip install -r requirements.txt`
+Install all dependencies using 
+`pip install -r requirements.txt`
 
-Specify the Youtube Live Video URL in scraper_main.py
-Run the file and you'll obtain the timestamp and text values within the output directory
+Run the app with
+`uvicorn main:app`
 
-Specify the output file name in sentiment_main.py
-Run the file to obtain sentiment scores of each line in sentiment.txt in the root of the folder
-  
-Presentation Link: [StreamSense](https://pitch.com/v/streamsense-635s4g)
+This should start the server on port 8000
+
+### Using the app
+Specify a YouTube live URL in the search bar and press Process
+This should generate a list of highlight timestamps for the current video

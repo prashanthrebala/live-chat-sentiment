@@ -22,3 +22,5 @@ This should start the server on port 8000
 ### Using the app
 Specify a YouTube live URL in the search bar and press Process
 This should generate a list of highlight timestamps for the current video
+
+![image](https://github.com/prashanthrebala/stream-sense/assets/27818512/2772e5b2-eb4b-48c4-886f-d88fa716741b)
